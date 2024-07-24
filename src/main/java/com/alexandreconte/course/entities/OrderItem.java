@@ -1,9 +1,11 @@
 package com.alexandreconte.course.entities;
 
 import com.alexandreconte.course.entities.pk.OrderItemPk;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import org.aspectj.weaver.ast.Or;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,14 +16,14 @@ public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private OrderItemPk id;
+    private OrderItemPk id = new OrderItemPk();
 
     private Integer quantity;
-    private Integer price;
+    private Double price;
 
     public OrderItem() { }
 
-    public OrderItem(Order order, Product product, Integer price, Integer quantity) {
+    public OrderItem(Order order, Product product, Integer quantity, Double price) {
         super();
         id.setOrder(order);
         id.setProduct(product);
@@ -29,6 +31,7 @@ public class OrderItem implements Serializable {
         this.quantity = quantity;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
@@ -45,11 +48,11 @@ public class OrderItem implements Serializable {
         id.setProduct(product);
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
